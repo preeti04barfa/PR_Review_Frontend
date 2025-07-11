@@ -22,3 +22,13 @@ export const getUserProfile = async (): Promise<ApiResponse<User>> => {
     throw error
   }
 }
+
+export const getAllPRs = async (): Promise<ApiResponse<User>> => {
+  try {
+    const response = await axiosInstance.get<ApiResponse<User>>("/auth/repos-prs")
+    return response.data
+  } catch (error) {
+    console.error("Error fetching user profile:", error)
+    throw error
+  }
+}

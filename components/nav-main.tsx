@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 export function NavMain({
   items,
@@ -22,6 +23,8 @@ export function NavMain({
     isActive : boolean
   }[]
 }) {
+
+  const router = useRouter()
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -48,6 +51,7 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton 
+              onClick={()=>router.push(item.url)}
                 className={cn(
         "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
         item.isActive ? "bg-[oklch(0.2_0_0)] text-white" : "hover:bg-muted"

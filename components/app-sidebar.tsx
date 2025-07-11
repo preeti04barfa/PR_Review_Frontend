@@ -58,10 +58,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           isActive: pathname === "/dashboard" || pathname === "/", 
         },
         {
-          title: "Lifecycle",
-          url: "/lifecycle",
+          title: "PRs",
+          url: "/prs",
           icon: IconListDetails,
-          isActive: pathname === "/lifecycle",
+          isActive: pathname === "/prs",
         },
         {
           title: "Analytics",
