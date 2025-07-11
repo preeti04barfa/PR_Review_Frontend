@@ -1,4 +1,4 @@
-import { getUserProfile } from "@/services/home.services"
+import { getAllPRs, getUserProfile } from "@/services/home.services"
 import api from "@/utils/api"
 
 export interface User {
@@ -73,4 +73,23 @@ export const logout = () => {
 
 export const isAuthenticated = (): boolean => {
     return !!getAccessToken()
+}
+
+
+export const fetchAllPRs = async (): Promise<User | null> => {
+    const token = getAccessToken()
+    if (!token) return null
+
+    try {
+          const response: ApiResponse<User> = await getAllPRs()
+        if (response.status === 'success') {
+          const userData = await response?.data;
+            localStorage.setItem("user_data", JSON.stringify(userData))
+            return userData
+        }
+        return null
+    } catch (error) {
+        console.error("Error fetching user profile:", error)
+        return null
+    }
 }
