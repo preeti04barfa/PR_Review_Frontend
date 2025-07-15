@@ -61,6 +61,7 @@ export default function PrsPage() {
 
   const [userPRs, setUserPRs] = React.useState<PRRow[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     const loadUser = async () => {
@@ -236,8 +237,19 @@ export default function PrsPage() {
         <div className="flex flex-1 flex-col">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              {loading ? (
-                <div className="p-4 text-center text-sm text-gray-500">Loading user PRs...</div>
+             {loading ? (
+                <div className="p-4 text-center text-sm text-gray-500 flex items-center justify-center">
+                  <IconLoader className="mr-2 h-5 w-5 animate-spin" />
+                  Loading developer prs...
+                </div>
+              ) : error ? (
+                <div className="p-4 text-center text-sm text-red-500">
+                  {error}
+                </div>
+              ) : userPRs.length === 0 ? (
+                <div className="p-4 text-center text-sm text-gray-500">
+                  No Developer PR found.
+                </div>
               ) : (
                 <DataTable<PRRow>
                   data={userPRs}

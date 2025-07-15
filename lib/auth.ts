@@ -1,5 +1,4 @@
-import { getAllPRs, getUserProfile } from "@/services/home.services"
-import api from "@/utils/api"
+import { getAllDeveloper, getAllPRs, getUserProfile } from "@/services/home.services"
 
 export interface User {
     id: string
@@ -7,6 +6,13 @@ export interface User {
     email: string
     avatar: string
     role: string
+}
+
+export interface Developer {
+    developer: string
+    noOfPRs: number
+    noOfProjects: number
+    
 }
 
 interface ApiResponse<T> {
@@ -92,4 +98,20 @@ export const fetchAllPRs = async (): Promise<User | null> => {
         console.error("Error fetching user profile:", error)
         return null
     }
+}
+
+export const fetchAllDeveloperList = async (): Promise<Developer[] | null> => {
+  const token = getAccessToken()
+  if (!token) return null
+
+  try {
+    const response = await getAllDeveloper()
+    if (response.status === 'success') {
+      return response.data
+    }
+    return null
+  } catch (error) {
+    console.error("Error fetching developer list:", error)
+    return null
+  }
 }
