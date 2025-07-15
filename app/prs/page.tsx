@@ -38,6 +38,7 @@ interface GitHubPR {
   user?: {
     login?: string
   }
+  reviewedStatus?: string
 }
 
 interface PRRow {
@@ -79,7 +80,7 @@ export default function PrsPage() {
           pushed_at: pr.head?.repo?.pushed_at ?? "",
           developer: pr.head?.repo?.owner?.login ?? "Unknown",
           state: pr.state ?? "unknown",
-          reviewedStatus: "Pending",
+          reviewedStatus: pr?.reviewedStatus || "Pending",
           number: pr.number ?? 0,
           prDiff: pr.prDiff ?? ""
         }))

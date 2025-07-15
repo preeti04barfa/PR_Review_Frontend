@@ -1,5 +1,6 @@
-import { getAllPRs, getUserProfile } from "@/services/home.services"
+import { getAllPRs, getCodeReviews, getUserProfile } from "@/services/home.services"
 import api from "@/utils/api"
+import { CodeReview } from "@/utils/types"
 
 export interface User {
     id: string
@@ -63,7 +64,8 @@ export const fetchUserProfile = async (): Promise<User | null> => {
 }
 
 export const initiateGithubLogin = () => {
-    window.location.href = "https://3zhtd559-3019.inc1.devtunnels.ms/auth/github"
+    window.location.href = "http://localhost:3019/auth/github/"
+    // window.location.href = "https://3zhtd559-3019.inc1.devtunnels.ms/auth/github"
 }
 
 export const logout = () => {
@@ -90,6 +92,20 @@ export const fetchAllPRs = async (): Promise<User | null> => {
         return null
     } catch (error) {
         console.error("Error fetching user profile:", error)
+        return null
+    }
+}
+
+
+export const fetchCodeReview = async (query: CodeReview): Promise<any> => {
+    const token = getAccessToken()
+    if (!token) return null
+
+    try {
+          const response: ApiResponse<any> = await getCodeReviews(query)
+          return response;
+    } catch (error) {
+        console.error("Error fetching code review:", error)
         return null
     }
 }
