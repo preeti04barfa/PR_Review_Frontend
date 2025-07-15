@@ -28,6 +28,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+
 
 export function NavUser({
   user,
@@ -38,7 +41,18 @@ export function NavUser({
     avatar: string
   }
 }) {
+    const router = useRouter()
+    // const { toast } = useToast()
   const { isMobile } = useSidebar()
+  const handleLogout = () => {
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("refresh_token")
+    localStorage.removeItem("user_data")
+
+    sessionStorage.clear()
+    toast("Logged out successfully")
+    router.push("/login")
+  }
 
   return (
     <SidebarMenu>
@@ -98,7 +112,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

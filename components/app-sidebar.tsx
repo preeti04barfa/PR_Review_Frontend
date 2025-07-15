@@ -33,7 +33,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { getUserData, fetchUserProfile, isAuthenticated, type User } from "@/lib/auth"
+import { getUserData, fetchUserProfile, isAuthenticated, type User, fetchAllPRs } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -58,10 +58,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           isActive: pathname === "/dashboard" || pathname === "/", 
         },
         {
-          title: "Lifecycle",
-          url: "/lifecycle",
+          title: "PRs",
+          url: "/prs",
           icon: IconListDetails,
-          isActive: pathname === "/lifecycle",
+          isActive: pathname === "/prs",
         },
         {
           title: "Analytics",
@@ -191,13 +191,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       let userData = getUserData()
       if (!userData) {
-        userData = await fetchUserProfile()
+        userData = await fetchAllPRs()
       }
 
       if (userData) {
         setUserProfile(userData)
       } else {
-        router.push("/login")
+        // router.push("/login")
       }
       setLoading(false)
     }

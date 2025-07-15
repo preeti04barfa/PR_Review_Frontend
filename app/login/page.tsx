@@ -14,13 +14,11 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Check if user is already logged in
     if (isAuthenticated()) {
       router.push("/dashboard")
       return
     }
 
-    // Check for error parameters
     const errorParam = searchParams.get("error")
     if (errorParam) {
       switch (errorParam) {
