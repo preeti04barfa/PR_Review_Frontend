@@ -43,7 +43,7 @@ export const getAllPRs = async (): Promise<ApiResponse<User>> => {
 
 export const getCodeReviews = async (values: CodeReview): Promise<ApiResponse<User>> => {
   try {
-    const response = await axiosInstance.get<ApiResponse<User>>('/auth/review-pr', {
+    const response = await axiosInstance.get<ApiResponse<User>>('/user/review-pr', {
       params: {
         repo: values.repoName,
         pr: values.prNumber,
