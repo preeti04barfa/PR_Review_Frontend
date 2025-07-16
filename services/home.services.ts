@@ -9,6 +9,13 @@ interface User {
   role: string
 }
 
+export interface Developer {
+    developer: string
+    noOfPRs: number
+    noOfProjects: number
+    projects: string[]
+}
+
 interface ApiResponse<T> {
   status: string
   data: T
@@ -48,5 +55,15 @@ export const getCodeReviews = async (values: CodeReview): Promise<ApiResponse<Us
   } catch (error) {
     console.error("Error fetching user profile:", error);
     throw error;
+  }
+}
+
+export const getAllDeveloper = async (): Promise<ApiResponse<Developer[]>> => {
+  try {
+    const response = await axiosInstance.get<ApiResponse<Developer[]>>("/auth/developers-summary")
+    return response.data
+  } catch (error) {
+    console.error("Error fetching user profile:", error)
+    throw error
   }
 }

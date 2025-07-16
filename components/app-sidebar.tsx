@@ -64,10 +64,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           isActive: pathname === "/prs",
         },
         {
-          title: "Analytics",
-          url: "/analytics",
+          title: "Developers",
+          url: "/developer",
           icon: IconChartBar,
-          isActive: pathname === "/analytics",
+          isActive: pathname === "/developer",
         },
         {
           title: "Projects",
