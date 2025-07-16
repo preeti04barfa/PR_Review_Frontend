@@ -44,6 +44,7 @@ interface PR {
   user?: {
     login?: string;
   };
+  reviewedStatus?: string;
 }
 
 interface PR_REVIEW {
@@ -139,6 +140,11 @@ export default function PrDetailPage() {
     }
   }, [pr?.head?.repo, pr?.number, prReview?.review]);
 
+  React.useEffect(()=>{
+    if(pr?.reviewedStatus == "Completed" || pr?.reviewedStatus == "Failed"){
+      setPrReview((prev)=>({...prev, review: true}))
+    }
+  },[pr?.reviewedStatus])
   const toggleDiff = (index: number) => {
     setDiffOpen((prev) => ({
       ...prev,
@@ -148,7 +154,7 @@ export default function PrDetailPage() {
   React.useEffect(()=>{
     return () => clearInterval(fetchAgain.current);
   }, [])
-
+console.log("154: ", pr)
   return (
     <SidebarProvider>
       <AppSidebar variant="inset" />

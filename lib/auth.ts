@@ -71,7 +71,7 @@ export const fetchUserProfile = async (): Promise<User | null> => {
 }
 
 export const initiateGithubLogin = () => {
-    window.location.href = "http://localhost:3019/auth/github/"
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/github/`
     // window.location.href = "https://3zhtd559-3019.inc1.devtunnels.ms/auth/github"
 }
 

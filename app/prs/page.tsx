@@ -15,11 +15,11 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { IconCircleCheckFilled, IconDotsVertical, IconLoader } from "@tabler/icons-react"
+import { IconCircleCheckFilled, IconDotsVertical, IconLoader, IconXboxXFilled } from "@tabler/icons-react"
 
 import { fetchAllPRs, isAuthenticated } from "@/lib/auth"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-
+import type { FC } from 'react';
 interface GitHubPR {
   id: number
   title?: string
@@ -52,7 +52,21 @@ interface PRRow {
   number: number
   prDiff: string
 }
+interface ReviewStatusIcon {
+  Icon: FC<any>; // Or FC<React.SVGProps<SVGSVGElement>> for more strict typing
+  class: string;
+}
 
+// Define the full mapping type
+interface ReviewStatusIconsMap {
+  [key: string]: ReviewStatusIcon;
+}
+const reviewStatusIcons: ReviewStatusIconsMap = {
+  'pending': {Icon: IconLoader, class: 'text-orange-600 border-orange-600'},
+  'in progress': {Icon: IconLoader, class: 'text-orange-600 border-orange-600'},
+  'completed': {Icon: IconCircleCheckFilled, class: 'text-green-600 border-green-600'},
+  'failed': {Icon: IconXboxXFilled, class: ' text-red-600 border-red-600'},
+}
 function isGitHubPRArray(data: any): data is GitHubPR[] {
   return Array.isArray(data)
 }
@@ -196,12 +210,13 @@ export default function PrsPage() {
     {
       accessorKey: "reviewedStatus",
       header: "Review Status",
-      cell: ({ row }) => (
-        <Badge variant="outline" className="text-orange-600 border-orange-600 px-1.5">
-          <IconLoader className="w-3 h-3 mr-1" />
+      cell: ({ row }) => {
+        const ReviewStatusShow: ReviewStatusIcon = reviewStatusIcons[row.original.reviewedStatus?.toLowerCase()];
+        return (<Badge variant="outline" className={`${ReviewStatusShow.class} px-1.5`}>
+          <ReviewStatusShow.Icon className="w-3 h-3 mr-1" />
           {row.original.reviewedStatus}
         </Badge>
-      ),
+      )},
     },
     {
       id: "actions",
